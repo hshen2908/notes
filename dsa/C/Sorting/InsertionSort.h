@@ -1,3 +1,5 @@
+#ifndef INSERTION_SORT_H
+#define INSERTION_SORT_H
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -27,3 +29,5 @@ void InsertionSort(void** A, size_t n, int (*cmp)(const void*, const void*)) {
         A[j] = key;
     }
 }
+
+#endif
