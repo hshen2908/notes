@@ -50,8 +50,66 @@ INSERTION-SORT(A,n)
         A[j] = key
 #+END_EXAMPLE
 
+*** IMPLEMENTATION
+**** C file:./C/Sorting/InsertionSort.h
+#+begin_src C :exports code :mkdirp yes :tangle ./C/Sorting/InsertionSort.h
+#include <stdlib.h>
+#include <stdio.h>
+#include <stddef.h>
+
+void InsertionSort(void* A, size_t n, size_t size, int (*cmp)(const void*, const void*)) {
+    for (size_t i = 1; i < n; i++) {
+        char* keybuf = (char*) malloc(size);
+        memcpy(keybuf, ((void*)A)+i*size, size);
+        ptrdiff_t j = i - 1;
+        while (j >= 0 && cmp(((void*)A)+j*size, keybuf)) {
+            memcpy(((void*)A)+(j+1)*size, ((void*)A)+j*size, size);
+            j--;
+        }
+        memcpy(((void*)A)+j*size, keybuf, size);
+    }
+}
+
+void InsertionSort(void** A, size_t n, int (*cmp)(const void*, const void*)) {
+    for (size_t i = 1; i < n; i++) {
+        void* key = A[i];
+        // Insert A[i] into the sorted subarray A[0:i-1]
+        ptrdiff_t  j = i - 1;
+        while (j >= 0 && cmp(A[j], key)) {
+            A[j+1] = A[j];
+            j--;
+        }
+        A[j] = key;
+    }
+}
+#+end_src
+
+**** C++ file:./Cpp/Sorting/InsertionSort.h
+#+begin_src C++ :exports code :mkdirp yes :tangle ./Cpp/Sorting/InsertionSort.h
+#ifndef INSERTION_SORT_H
+#define INSERTION_SORT_H
+#include <cstddef>
+#include <vector>
+
+template<typename T>
+void InsertionSort(std::vector<T> &A) {
+    for (std::size_t i = 1; i < A.size(); i++) {
+        T key = A[i];
+        // Insert A[i] into the sorted subarray A[0:i-1]
+        ptrdiff_t j = i - 1;
+        while (j >= 0 && A[j] > key) {
+            A[j+1] = A[j];
+            j--;
+        }
+        A[j] = key;
+    }
+}
+
+#endif
+#+end_src
+
 *** CORRECTNESS
-[[LOOP_INVARIANT][Loop Invariant:]] At the start of each iteration of the for loop, the subarray A[1:i-1] consists of the elements originally in A[1:i-1], but in sorted order.
+[[LOOP_INVARIANT][Loop Invariant]]:At the start of each iteration of the for loop, the subarray A[1:i-1] consists of the elements originally in A[1:i-1], but in sorted order.
 
 *Initialization:* We start by showing that the loop invariant holds before the first loop iteration, when i = 2. The subarray A[1:i-1] consists of just the single elements A[1], which is in fact the original element in A[1]. Moreover, the subarray is sorted, which shows that the loop invariant holds prior to the first iteration of the loop.
 
