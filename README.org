@@ -1,0 +1,14 @@
+#+TITLE: Collection of Notes
+#+DESCRIPTION: A collection of notes
+#+PROPERTY:
+#+AUTHOR: Henrique Shen
+#+EMAIL: hshen2908@gmail.com
+
+* TABLE OF CONTENTS :toc:
+- [[#data-structures-and-algorithms][Data Structures and Algorithms]]
+  - [[#path-filedsadsaorg][PATH: file:./dsa/dsa.org]]
+  - [[#description][DESCRIPTION]]
+
+* Data Structures and Algorithms
+** PATH: file:./dsa/dsa.org
+** DESCRIPTION
