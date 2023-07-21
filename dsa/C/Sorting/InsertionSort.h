@@ -1,6 +1,7 @@
 #ifndef INSERTION_SORT_H
 #define INSERTION_SORT_H
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include <stddef.h>
 

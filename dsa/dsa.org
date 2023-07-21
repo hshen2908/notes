@@ -17,6 +17,8 @@
 A loop-invariant proof is a form of mathematical induction, where to prove that a property holds, you prove a base case and an inductive step. Showing that the invariant holds before the first iteration corresponds to the base case, and showing that the invariant holds from iteration to iteration corresponds to the inductive step. We use the loop invariant along with the condition that caused the loop to terminate to show correctness. While mathematical induction typically applies the inductive step infinitely, in a loop invariant the "induction" stops when the loop terminates.
 
 *** FORMAT
+*Invariant:* Property that holds true before the start of every iteration and after the initialization of the loop variable.
+
 *Initialization:* Show that it is true prior to the first iteration of the loop. When the loop is a for loop, the loop-invariant check occurs immediately after the initial assignment to the loop-counter variable and just before the first test in the loop header.
 
 *Maintenance:* Assume that the invariant is true before an iteration of the loop. Show that it remains true before the next iteration.
@@ -56,6 +58,7 @@ INSERTION-SORT(A,n)
 #ifndef INSERTION_SORT_H
 #define INSERTION_SORT_H
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include <stddef.h>
 
@@ -113,7 +116,8 @@ void InsertionSort(std::vector<T> &A) {
 #+end_src
 
 *** CORRECTNESS
-[[LOOP_INVARIANT][Loop Invariant]]:At the start of each iteration of the for loop, the subarray A[1:i-1] consists of the elements originally in A[1:i-1], but in sorted order.
+**** [[LOOP_INVARIANT][Loop Invariant]]
+*Invariant:* At the start of each iteration of the for loop, the subarray A[1:i-1] consists of the elements originally in A[1:i-1], but in sorted order.
 
 *Initialization:* We start by showing that the loop invariant holds before the first loop iteration, when i = 2. The subarray A[1:i-1] consists of just the single elements A[1], which is in fact the original element in A[1]. Moreover, the subarray is sorted, which shows that the loop invariant holds prior to the first iteration of the loop.
 
@@ -121,4 +125,10 @@ void InsertionSort(std::vector<T> &A) {
 
 *Termination:* The loop variable i starts at 2 and increments by 1 in each iteration. Once i exceeds n, the loop terminates. That is, the loop terminates once i equals n-1. Substituting n+1 for the i in the wording of the loop invariant yields that the subarray A[1:n] consists of the elements originally in A[1:n], but in sorted order. Hence, the algorithm is correct.
 
-*** Analysis
+*** ANALYSIS
+**** Worst Case O(n^2)
+The array is in reverse sorted order. The procedure must compare each element A[i] with each element in the entire sorted subarray A[1:i-1], and so the while loop exits only when j reaches 0.
+**** Average Case O(n^2)
+The array contains numbers in a random order. When determining where in subarray A[1:i-1] to insert element A[i], on average, half the elements in the subarray are less than A[i], and half the elements are greater. On average, therefore, A[i] is compared with just half of the subarray A[1:i-1].
+**** Best Case O(n)
+The array is already sorted. In this case, the while loop always exits upon the first test.
